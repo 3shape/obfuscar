@@ -135,7 +135,7 @@ namespace Obfuscar
                 var newGroup = new MethodGroup();
                 newGroup.Methods.Add(new MethodKey(method));
                 MethodDefinition rootMethod = null;
-                if (method.Parameters.Any(p => p.ParameterType is GenericParameter))
+                if (method.Parameters.Any(p => p.ParameterType.ContainsGenericParameter))
                 {
                     // If the method has generic arguments we need to group it with overloads in the same class so they are renamed the same
                     // way, otherwise the call site updating may fail to choose the right overload

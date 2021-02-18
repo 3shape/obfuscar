@@ -62,6 +62,7 @@
     <Compile Remove="Input\AssemblyForCleanPoolInterface.cs" />
     <Compile Remove="Input\AssemblyForSigning.cs" />
     <Compile Remove="Input\AssemblyForSigning2.cs" />
+    <Compile Remove="Input\AssemblyWithAssemblyAttr.cs" />
     <Compile Remove="Input\AssemblyWithAttrs.cs" />
     <Compile Remove="Input\AssemblyWithClosedOverrideGeneric.cs" />
     <Compile Remove="Input\AssemblyWithCustomAttr.cs" />

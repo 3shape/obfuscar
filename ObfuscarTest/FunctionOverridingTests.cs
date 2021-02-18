@@ -278,6 +278,45 @@ namespace ObfuscarTest
         }
 
         [Fact]
+        public void CheckOverloadGenericRef()
+        {
+            string assmName = "AssemblyWithGeneric";
+            string outputPath = TestHelper.OutputPath;
+            string xml = string.Format(
+                @"<?xml version='1.0'?>" +
+                @"<Obfuscator>" +
+                @"<Var name='InPath' value='{0}' />" +
+                @"<Var name='OutPath' value='{1}' />" +
+                @"<Var name='KeepPublicApi' value='true' />" +
+                @"<Var name='HidePrivateApi' value='true' />" +
+                @"<Module file='$(InPath){2}{3}.dll' />" +
+                @"</Obfuscator>", TestHelper.InputPath, outputPath, Path.DirectorySeparatorChar, assmName);
+
+            var obfuscator = TestHelper.BuildAndObfuscate(assmName, string.Empty, xml);
+            var map = obfuscator.Mapping;
+
+            AssemblyDefinition inAssmDef = AssemblyDefinition.ReadAssembly(Path.Combine(TestHelper.InputPath, assmName + ".dll"));
+
+            TypeDefinition classType = inAssmDef.MainModule.GetType("ObfuscarTest.GenericClass`1");
+
+            MethodDefinition processMethod1 = classType.Methods.First(m => m.Name == "Process");
+            MethodDefinition processMethod2 = classType.Methods.Last(m => m.Name == "Process");
+
+            var renamedProcessMethod1 = map.GetMethod(new MethodKey(processMethod1));
+            var renamedProcessMethod2 = map.GetMethod(new MethodKey(processMethod2));
+
+            Assert.Equal(ObfuscationStatus.Renamed, renamedProcessMethod1.Status);
+            Assert.Equal(ObfuscationStatus.Renamed, renamedProcessMethod2.Status);
+            Assert.Equal(renamedProcessMethod1.StatusText, renamedProcessMethod2.StatusText);
+
+            var assemblyPath = Path.Combine(Directory.GetCurrentDirectory(), outputPath, assmName + ".dll");
+            var assembly = Assembly.LoadFile(assemblyPath);
+            var testClassType = assembly.GetTypes().First(ct => ct.Name == "TestClass");
+            var testMethod = testClassType.GetMethod("Test");
+            testMethod.Invoke(null, new object[] { });
+        }
+
+        [Fact]
         public void CheckEventRenaming()
         {
             string outputPath = TestHelper.OutputPath;
