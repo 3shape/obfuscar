@@ -6,7 +6,11 @@
         {
         }
 
-        public void Process()
+        public void Method1(int a)
+        {
+        }
+
+        public void Process(int a)
         {
         }
     }

@@ -230,7 +230,7 @@ namespace Obfuscar
 
         private static bool TypeMatch(TypeReference a, TypeReference b)
         {
-            if (a is GenericParameter)
+            if (a.ContainsGenericParameter)
                 return true;
 
             if (a is TypeSpecification || b is TypeSpecification)

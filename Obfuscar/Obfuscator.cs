@@ -1183,7 +1183,7 @@ namespace Obfuscar
                     return;
                 }
                 if (Project.InheritMap.GetMethodGroup(methodKey) == null ||
-                    !method.Parameters.Any(p => p.ParameterType is GenericParameter))
+                    !method.Parameters.Any(p => p.ParameterType.ContainsGenericParameter))
                     return;
 
                 // If the method has generic arguments we need to group it with overloads in the same class so they are renamed the same
