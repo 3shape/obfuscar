@@ -156,7 +156,9 @@ namespace Obfuscar
                 return false;
 
             for (int i = 0; i < candidate.Parameters.Count; i++)
-                if (!TypeMatch(candidate.Parameters[i].ParameterType, method.Parameters[i].ParameterType))
+                if (!candidate.Parameters[i].ParameterType.ContainsGenericParameter &&
+                    !method.Parameters[i].ParameterType.ContainsGenericParameter &&
+                    !TypeMatch(candidate.Parameters[i].ParameterType, method.Parameters[i].ParameterType))
                     return false;
 
             return true;
@@ -230,7 +232,7 @@ namespace Obfuscar
 
         private static bool TypeMatch(TypeReference a, TypeReference b)
         {
-            if (a.ContainsGenericParameter)
+            if (a is GenericParameter)
                 return true;
 
             if (a is TypeSpecification || b is TypeSpecification)
