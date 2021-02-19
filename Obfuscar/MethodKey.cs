@@ -156,8 +156,7 @@ namespace Obfuscar
                 return false;
 
             for (int i = 0; i < candidate.Parameters.Count; i++)
-                if (!candidate.Parameters[i].ParameterType.ContainsGenericParameter &&
-                    !method.Parameters[i].ParameterType.ContainsGenericParameter &&
+                if (!method.Parameters[i].ParameterType.ContainsGenericParameter &&
                     !TypeMatch(candidate.Parameters[i].ParameterType, method.Parameters[i].ParameterType))
                     return false;
 
