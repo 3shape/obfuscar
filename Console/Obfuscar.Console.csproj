@@ -2,13 +2,13 @@
 
   <Target Name="RepackWithILOnWindows" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' AND '$(OS)' == 'Windows_NT'">
     <Exec Command="rename Obfuscar.Console.exe Obfuscar.exe" WorkingDirectory="$(TargetDir)" />
-    <Exec Command="&quot;$(ILRepack)&quot; /t:exe /out:Obfuscar.Console.exe Obfuscar.exe Baml.dll Mono.Cecil.dll Mono.Cecil.Pdb.dll Mono.Cecil.Rocks.dll Mono.Options.dll Obfuscar.dll Rollbar.dll Newtonsoft.Json.dll" WorkingDirectory="$(TargetDir)" />
+    <Exec Command="&quot;$(ILRepack)&quot; /t:exe /out:Obfuscar.Console.exe Obfuscar.exe Baml.dll Mono.Cecil.dll Mono.Cecil.Pdb.dll Mono.Cecil.Rocks.dll Mono.Options.dll Obfuscar.dll Rollbar.dll Newtonsoft.Json.dll $(TargetFrameworkAssemblies)" WorkingDirectory="$(TargetDir)" />
     <Exec Command="del Baml.dll Mono.Cecil.dll Mono.Cecil.Pdb.dll Mono.Cecil.Rocks.dll Mono.Options.dll Obfuscar.dll Rollbar.dll Obfuscar.exe Newtonsoft.Json.dll" WorkingDirectory="$(TargetDir)" />
   </Target>
 
   <Target Name="RepackWithILOnNonWindows" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' AND '$(OS)' != 'Windows_NT'">
     <Exec Command="mv Obfuscar.Console.exe Obfuscar.exe" WorkingDirectory="$(TargetDir)" />
-    <Exec Command="&quot;$(ILRepack)&quot; /t:exe /out:Obfuscar.Console.exe Obfuscar.exe Baml.dll Mono.Cecil.dll Mono.Cecil.Pdb.dll Mono.Cecil.Rocks.dll Mono.Options.dll Obfuscar.dll Rollbar.dll Newtonsoft.Json.dll" WorkingDirectory="$(TargetDir)" />
+    <Exec Command="&quot;$(ILRepack)&quot; /t:exe /out:Obfuscar.Console.exe Obfuscar.exe Baml.dll Mono.Cecil.dll Mono.Cecil.Pdb.dll Mono.Cecil.Rocks.dll Mono.Options.dll Obfuscar.dll Rollbar.dll Newtonsoft.Json.dll $(TargetFrameworkAssemblies)" WorkingDirectory="$(TargetDir)" />
     <Exec Command="rm Baml.dll Mono.Cecil.dll Mono.Cecil.Pdb.dll Mono.Cecil.Rocks.dll Mono.Options.dll Obfuscar.dll Rollbar.dll Obfuscar.exe Newtonsoft.Json.dll" WorkingDirectory="$(TargetDir)" />
   </Target>
 
@@ -72,4 +72,51 @@
     <PackageReference Include="Mono.Options" Version="6.12.0.148" />
     <PackageReference Include="Rollbar" Version="5.2.2" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <NETCoreAppRefPath Condition="'$(TargetFramework)' == 'net6.0'">$(MSBuildProgramFiles32)\dotnet\packs\Microsoft.NETCore.App.Ref\6.0.0\ref\net6.0</NETCoreAppRefPath>
+    <NETCoreAppRefPath Condition="'$(TargetFramework)' == 'net8.0'">$(MSBuildProgramFiles32)\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.0\ref\net8.0</NETCoreAppRefPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFrameworkAssemblies Condition="'$(TargetFramework)' == 'net6.0'">
+      $(NETCoreAppRefPath)\System.Private.CoreLib.dll;
+      $(NETCoreAppRefPath)\System.Runtime.dll;
+      $(NETCoreAppRefPath)\System.Console.dll;
+      $(NETCoreAppRefPath)\System.Text.RegularExpressions.dll;
+      $(NETCoreAppRefPath)\System.Linq.dll;
+      $(NETCoreAppRefPath)\System.Linq.Expressions.dll;
+      $(NETCoreAppRefPath)\System.IO.dll;
+      $(NETCoreAppRefPath)\System.Net.Primitives.dll;
+      $(NETCoreAppRefPath)\System.Net.Http.dll;
+      $(NETCoreAppRefPath)\System.Private.Uri.dll;
+      $(NETCoreAppRefPath)\System.Reflection.dll;
+      $(NETCoreAppRefPath)\System.ComponentModel.Primitives.dll;
+      $(NETCoreAppRefPath)\System.Globalization.dll;
+      $(NETCoreAppRefPath)\System.Collections.Concurrent.dll;
+      $(NETCoreAppRefPath)\System.Collections.NonGeneric.dll;
+      $(NETCoreAppRefPath)\Microsoft.CSharp.dll;
+      $(NETCoreAppRefPath)\netstandard.dll
+    </TargetFrameworkAssemblies>
+    <TargetFrameworkAssemblies Condition="'$(TargetFramework)' == 'net8.0'">
+      $(NETCoreAppRefPath)\System.Private.CoreLib.dll;
+      $(NETCoreAppRefPath)\System.Runtime.dll;
+      $(NETCoreAppRefPath)\System.Console.dll;
+      $(NETCoreAppRefPath)\System.Text.RegularExpressions.dll;
+      $(NETCoreAppRefPath)\System.Linq.dll;
+      $(NETCoreAppRefPath)\System.Linq.Expressions.dll;
+      $(NETCoreAppRefPath)\System.IO.dll;
+      $(NETCoreAppRefPath)\System.Net.Primitives.dll;
+      $(NETCoreAppRefPath)\System.Net.Http.dll;
+      $(NETCoreAppRefPath)\System.Private.Uri.dll;
+      $(NETCoreAppRefPath)\System.Reflection.dll;
+      $(NETCoreAppRefPath)\System.ComponentModel.Primitives.dll;
+      $(NETCoreAppRefPath)\System.Globalization.dll;
+      $(NETCoreAppRefPath)\System.Collections.Concurrent.dll;
+      $(NETCoreAppRefPath)\System.Collections.NonGeneric.dll;
+      $(NETCoreAppRefPath)\Microsoft.CSharp.dll;
+      $(NETCoreAppRefPath)\netstandard.dll
+    </TargetFrameworkAssemblies>
+  </PropertyGroup>
+
 </Project>
