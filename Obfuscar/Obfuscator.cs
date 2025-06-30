@@ -941,7 +941,8 @@ namespace Obfuscar
                     {
                         //only rename property to avoid method getter issues
                         var propKey = new PropertyKey(typeKey, prop);
-                        var newName = NameMaker.Instance.UniqueName(Project.Settings.ReuseNames ? index++ : _uniqueMemberNameIndex++);
+                        var newName = NameMaker.Instance.UniqueName(
+                            Project.Settings.ReuseNames ? index++ : _uniqueMemberNameIndex++, null, prop.Name);
                         RenameProperty(info, propKey, prop, newName);
                     }
                 }
