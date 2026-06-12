@@ -213,7 +213,7 @@ namespace Obfuscar
                         continue;
                     }
 
-                    // save a little time
+                    // save a little time by updating the smaller group
                     if (baseGroup.Methods.Count > newGroup.Methods.Count)
                         (newGroup, baseGroup) = (baseGroup, newGroup);
 
