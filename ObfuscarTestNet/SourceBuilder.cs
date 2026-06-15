@@ -111,9 +111,10 @@ namespace ObfuscarTestNet
                 runtimePath + "System.Collections.Concurrent.dll",
                 runtimePath + "System.Collections.NonGeneric.dll",
                 runtimePath + "Microsoft.CSharp.dll",
-                runtimePath + "netstandard.dll"
-#if !NETFRAMEWORK
-                ,
+                runtimePath + "netstandard.dll",
+#if NETFRAMEWORK
+                runtimePath + "System.Core.dll"
+#else
                 runtimePath + "System.Private.CoreLib.dll",
                 runtimePath + "System.Private.Uri.dll"
 #endif
